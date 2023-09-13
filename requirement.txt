@@ -1,0 +1,4 @@
+pandas_ta
+stable_baselines3
+shimmy
+gym
