@@ -1,6 +1,6 @@
 from stock_env_trading import StockTradingEnv
 import pandas as pd
-from stable_baselines3 import A2C
+from stable_baselines3 import PPO
 
 def load_data():
     df = pd.read_csv("/content/drive/MyDrive/stock_data/VN30F1M_adjust.csv").drop(columns=["Unnamed: 0"])
@@ -18,7 +18,9 @@ def load_data():
 
 if __name__ == "__main__":
     p_close, data = load_data()
-    model = A2C(policy="MlpPolicy", env=myenv, verbose=0)
+    path="/content/drive/MyDrive/stock_data/pos.csv"
+    myenv = StockTradingEnv(data=data[:-10000], p_close=p_close[:-10000], path=path)
+    model = PPO(policy="MlpPolicy", env=myenv, verbose=0, device="cuda")
     trained = model.learn(total_timesteps=1000000)
 
 
